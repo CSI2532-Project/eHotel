@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Customer Login Page</title>
+<script type="text/javascript">
+	function validate (){
+		var username = document.getElementById("username");
+		var password = document.getElementById("password");
+		if (username == "" || password == ""){
+			alert ("Username or password cannot be null");
+			return false;
+		}else{
+			return true;
+		}
+	}
+</script>
+</head>
+<body>
+	<h4>Login as a Customer</h4>
+	<form action ="custlogin" method="post">
+		SSN: 
+		<input id="username" name ="username" type="text" required>
+		<br>
+		Password:
+		<br>
+		<input type="submit" value="Login" onclick="return validate();">
+	</form>
+	<button onclick="location.href='Customer_registration_page.html'">Register</button>
+</body>
+</html>
