@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Booking System for Customers</title>
+<title>Booking System for Clients</title>
 </head>
 <body>
 	
