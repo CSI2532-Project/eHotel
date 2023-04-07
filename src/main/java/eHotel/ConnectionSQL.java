@@ -148,24 +148,24 @@ public class ConnectionSQL {
 
 		connecter();
 
-		ArrayList<Chambre> Rooms = new ArrayList<Chambre>();
+		ArrayList<Chambre> chambres = new ArrayList<Chambre>();
 
 		try {
-			ps = conn.prepareStatement("select * from e_hotel.room where room_status='booked'");
+			ps = conn.prepareStatement("select * from e_hotel.chambre where status_chambre='Booked'");
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				int id_chambre = rs.getString("room_no");
+				int id_chambre = rs.getInt("id_chambre");
 				String status_chambre = rs.getString("status_chambre");
 				Chambre chambre = new Chambre(id_chambre, status_chambre);
-				Rooms.add(room);
+				chambres.add(chambre);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			disconnect();
+			disconnecter();
 		}
 
-		return Rooms;
+		return chambres;
 	}
 	
 }
