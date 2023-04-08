@@ -3,20 +3,15 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Enregistrement d'un employee</title>
+<link rel="stylesheet" href="Client_signin_page.css">
 <script type="text/javascript">
 	function validate(){
 		var username = document.getElementById("firstname");
 		var password = document.getElementById("password");
 		var password2 = document.getElementById("password2");
 		var ssn = document.getElementById("ssn");
-		if (username == "" || password == ""){
-			alert ("Username or password cannot be null");
-			return false;
-		} else if (password != password2){
+		if (password != password2){
 			alert ("Passwords do not match");
-			return false;
-		} else if (ssn.lenght()!= 8){
-			alert ("SSN should be 8 numbers long");
 			return false;
 		} else {
 			return true;
@@ -25,27 +20,45 @@
 </script>
 </head>
 <body>
-	<h4>Register as an employee</h4>
-	<form name = "registerFormEmployee" action = "registrationServletEmployee" method="post">
-		First Name:
-		<input id ="firstname" name="firstname" type="text" required>	
-		<br>
-		Last Name:
-		<input id ="lastname" name="lastname" type="text" required>	
-		<br>
-		Address:
-		<input id ="address" name="address" type="text" required>	
-		<br>
-		SSN:
-		<input id ="ssn" name="ssn" type="text" required>	
-		<br>
-		Password:
-		<input id ="password" name="password" type="password" required>	
-		<br>
-		Confirm your Password:
-		<input id ="password2" name="password2" type="password" required>	
-		<br>
-		<input type="submit" value="Submit" onclick="return validate();">
+<div class = "center">
+	<h1>Register as a client</h1>
+	<form name = "registerFormEmployee" action ="registerFormEmployee" method="post">
+		
+		<div class = "txt_field">
+			<input id="firstname" name ="firstname" type="text" required>
+			<span></span>
+			<label>First Name: </label>	
+		</div>
+		<div class = "txt_field">
+			<input id="lastname" name ="lastname" type="text" required>
+			<span></span>
+			<label>Last Name: </label>	
+		</div>
+		<div class = "txt_field">
+			<input id="address" name ="address" type="text" required>
+			<span></span>
+			<label>Address: </label>	
+		</div>
+		<div class = "txt_field">
+			<input id="ssn" name ="ssn" type="text" required>
+			<span></span>
+			<label>SSN: </label>	
+		</div>
+		<div class = "txt_field">
+			<input id="password" name ="password" type="text" required>
+			<span></span>
+			<label>Password: </label>	
+		</div>
+		<div class = "txt_field">
+			<input id="password2" name ="password2" type="password" required>
+			<span></span>
+			<label>Confirm your Password:</label>	
+		</div>
+		
+		<input type="submit" value="Submit" >
+		
 	</form>
+	</div>
+	
 </body>
 </html>
