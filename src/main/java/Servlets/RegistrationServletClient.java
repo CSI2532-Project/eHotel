@@ -28,11 +28,12 @@ public class RegistrationServletClient extends HttpServlet{
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		HttpSession session = req.getSession();
-		String client_first_last = req.getParameter("firstlastname");
+		String client_first = req.getParameter("firstname");
+		String client_last = req.getParameter("lastname");
 		String client_address = req.getParameter("address");
 		String client_ssn = req.getParameter("ssn");
 		String client_password = req.getParameter("password");
-		String[] parametre = new String[] {client_first_last,client_address,client_ssn,client_password};
+		String[] parametre = new String[] {client_first + " " + client_last,client_address,client_ssn,client_password};
 		
 		ConnectionSQL conn = new ConnectionSQL();
 		boolean client_pwd = conn.addNewClient(parametre);

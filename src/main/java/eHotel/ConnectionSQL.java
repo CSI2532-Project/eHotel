@@ -70,6 +70,30 @@ public class ConnectionSQL {
 		return client_ssn;
 	}
 	
+	public String getPassClientByNom(String nom) {
+		connecter();
+
+		String password = "";
+
+		try {
+			ps = conn.prepareStatement(
+					"select password from e_hotel.client where nom=" + "'" + nom + "'");
+
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				password = rs.getString(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnecter();
+		}
+		return password;
+
+	}
+	
 	public String getPassEmpByNom(String nom) {
 		connecter();
 

@@ -5,7 +5,7 @@
 <title>Enregistrement d'un client</title>
 <script type="text/javascript"> 
 function validate(){
-	var username = document.getElementById("firstlastname");
+	var username = document.getElementById("firstname");
 	var password = document.getElementById("password");
 	var password2 = document.getElementById("password2");
 	var ssn = document.getElementById("ssn");
@@ -27,8 +27,11 @@ function validate(){
 <body>
 	<h4>Register as a client</h4>
 	<form name = "registerFormClient" action = "registrationServletClient" method="post">
-		First and Last Name:
-		<input id ="firstlastname" name="firstlastname" type="text" required>	
+		First Name:
+		<input id ="firstname" name="firstname" type="text" required>	
+		<br>
+		Last Name:
+		<input id ="lastname" name="lastname" type="text" required>	
 		<br>
 		Address:
 		<input id ="address" name="address" type="text" required>	
