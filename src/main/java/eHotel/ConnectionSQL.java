@@ -45,20 +45,20 @@ public class ConnectionSQL {
 		}
 	}
 	
-	public String[] getClientSSN(String ssn) {
+	public String[] getClientInfo(String ssn) {
 		System.out.println(ssn);
 		connecter();
-		String[] client_ssn = new String[3];
+		String [] client_ssn = new String [3];
 
 		try {
-			ps = conn.prepareStatement("select * from e_hotel.client where nas='" + Integer.parseInt(ssn) + "'");
+			ps = conn.prepareStatement("select * from e_hotel.client where nas='" + ssn + "'");
 
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
-				client_ssn[0] = rs.getString(1);
-				client_ssn[1] = rs.getString(2);
-				client_ssn[2] = rs.getString(4);
+				client_ssn [0]= rs.getString(1);
+				client_ssn [1]= rs.getString(2);
+				client_ssn [2]= rs.getString(3);
 			}
 
 		} catch (SQLException e) {
@@ -66,7 +66,7 @@ public class ConnectionSQL {
 		} finally {
 			disconnecter();
 		}
-		System.out.println(client_ssn[0] + " " + client_ssn[1]);
+		System.out.println(client_ssn[0] + " " + client_ssn[1] + " " + client_ssn[2]);
 		return client_ssn;
 	}
 	
@@ -290,7 +290,7 @@ public class ConnectionSQL {
 	
 	public static void main(String[] args) {
 		ConnectionSQL conn = new ConnectionSQL();
-		
+		conn.getClientInfo("123-45-6789");
 
 	}
 	
