@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Customer Login Page</title>
+<title>Client Login Page</title>
 <script type="text/javascript">
 	function validate (){
 		var username = document.getElementById("username");
@@ -19,7 +19,7 @@
 <body>
 	<h4>Login as a Client</h4>
 	<form action ="custlogin" method="post">
-		SSN: 
+		First and Last Name: 
 		<input id="username" name ="username" type="text" required>
 		<br>
 		Password:
@@ -27,6 +27,6 @@
 		<br>
 		<input type="submit" value="Login" onclick="return validate();">
 	</form>
-	<button onclick="location.href='Client_registration_page.html'">Register</button>
+	<button onclick="location.href='Client_enregistrement_page.html'">Register</button>
 </body>
 </html>

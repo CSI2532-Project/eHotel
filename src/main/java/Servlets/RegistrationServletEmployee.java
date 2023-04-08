@@ -4,12 +4,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
 import eHotel.*;
 
+@WebServlet("/registrationServletEmployee")
 public class RegistrationServletEmployee extends HttpServlet{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		doPost(req, resp);
@@ -23,16 +30,9 @@ public class RegistrationServletEmployee extends HttpServlet{
 		String emp_last = req.getParameter("lastname");
 		String emp_address = req.getParameter("address");
 		String emp_password = req.getParameter("password");
-		String emp_postal = req.getParameter("postalcode");
-		String emp_city = req.getParameter("city");
-		String emp_country = req.getParameter("country");
-		String emp_dob = req.getParameter("dob");
-		String emp_province = req.getParameter("province");
-		String[] t1 = new String[] {emp_nom, emp_ssn, emp_last,emp_dob};
-		String[] t2 = new String[] {emp_nom, emp_password};
-		String[] t3 = new String[] {emp_nom, emp_address, emp_city, emp_province, emp_country, emp_postal};
+		String[] t1 = new String[] {emp_nom + " " + emp_last, emp_address, emp_ssn, emp_password};
 		ConnectionSQL conn = new ConnectionSQL();
-		boolean emp_pwd = conn.addNewEmployee(t1, t2, t3);
+		boolean emp_pwd = conn.addNewEmployee(t1);
 		
 		System.out.println(emp_pwd);
 		

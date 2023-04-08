@@ -94,17 +94,13 @@ public class ConnectionSQL {
 
 	}
 	
-	public boolean addNewEmployee(String[] t1, String[] t2, String[] t3) {
+	public boolean addNewEmployee(String[] t1) {
 		connecter();
 
 		try {
 			st = conn.createStatement();
-			postsql = "insert into e_hotel.employe values('" + t1[0] + "','" + t1[1] + "','" + t1[2]
-					+ "','" + t1[3] + "'," + "'" + t1[4] + "','" + t1[5] + "')";
-			String inEmployee = "insert into e_hotel.employe_poste values('" + t2[0] + "','" + t2[1] + "')";
-			System.out.print(postsql + " " + inEmployee);
-
-			st.execute(inEmployee);
+			postsql = "insert into e_hotel.employe (nom,adresse,nas,password) values('" + t1[0] + "','" + t1[1] + "','" + t1[2]
+					+ "','" + t1[3] + "')";
 			st.executeUpdate(postsql);
 			return true;
 		} catch (SQLException e) {
@@ -116,13 +112,12 @@ public class ConnectionSQL {
 
 	}
 	
-	public boolean addNewCustomer(String[] client) {
+	public boolean addNewClient(String[] client) {
 		connecter();
 
 		try {
 			st = conn.createStatement();
-			postsql = "insert into e_hotel.client values('" + client[0] + "','" + client[1] + "','" + client[2] + "','"
-					+ client[3] + "','" + client[4] + "')";
+			postsql = "insert into e_hotel.client (nom,adresse,nas,password) values('" + client[0] + "','" + client[1] + "','" + client[2] + "','" + client[3] + "')";
 			System.out.print(postsql);
 
 			st.executeUpdate(postsql);
@@ -285,12 +280,6 @@ public class ConnectionSQL {
 		} finally {
 			disconnecter();
 		}
-
-	}
-	
-	public static void main(String[] args) {
-		ConnectionSQL conn = new ConnectionSQL();
-		conn.getClientInfo("123-45-6789");
 
 	}
 	
