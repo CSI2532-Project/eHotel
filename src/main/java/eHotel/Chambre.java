@@ -14,6 +14,8 @@ public class Chambre {
 	private int location_id;
 	private String debut_date;
 	private String fin_date;
+	private String adresse;
+	private int id_chaine;
 	
 	public Chambre() {
 		
@@ -146,4 +148,21 @@ public class Chambre {
 	public String getCommodites() {
 		return commodites;
 	}
+	
+	public void setAdresse(String adresse) {
+		this.adresse = adresse;
+	}
+	
+	public String getAdresse() {
+		return adresse;
+	}
+	
+	public void setHotChaineId(int id_chaine) {
+		this.id_chaine = id_chaine;
+	}
+	
+	public int getHotChaineId() {
+		return id_chaine;
+	}
+	
 }

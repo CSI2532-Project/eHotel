@@ -1,9 +1,6 @@
 package eHotel;
 
 import java.sql.*;
-
-import eHotel.Hotel;
-import eHotel.Chambre;
 import java.util.*;
 
 public class ConnectionSQL {
@@ -23,9 +20,10 @@ public class ConnectionSQL {
 		try {
 			
 			Class.forName("org.postgresql.Driver");
-			conn = DriverManager.getConnection("url","username","password");
+			String url = "jdbc:postgresql://localhost:5432/postgres";
+			conn = DriverManager.getConnection(url,"postgres","357899");
 		}catch(Exception e) {
-			System.out.println("unable to connect");
+			System.out.println("Unable to connect");
 		}
 	}
 	
@@ -72,20 +70,41 @@ public class ConnectionSQL {
 		return client_ssn;
 	}
 	
+	public String getPassEmpByNom(String nom) {
+		connecter();
+
+		String password = "";
+
+		try {
+			ps = conn.prepareStatement(
+					"select password from e_hotel.employe where nom=" + "'" + nom + "'");
+
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				password = rs.getString(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnecter();
+		}
+		return password;
+
+	}
+	
 	public boolean addNewEmployee(String[] t1, String[] t2, String[] t3) {
 		connecter();
 
 		try {
 			st = conn.createStatement();
 			postsql = "insert into e_hotel.employe values('" + t1[0] + "','" + t1[1] + "','" + t1[2]
-					+ "','" + t1[3] + "'," + "'" + t1[4] + "')";
-			String inEmployee = "insert into e_hotel.employee values('" + t2[0] + "','" + t2[1] + "')";
-			String inAddresse = "insert into e_hotel.employee_addresses values('" + t3[0] + "','" + t3[1]
-					+ "','" + t3[2] + "','" + t3[3] + "'," + "'" + t3[4] + "'," + "'" + t3[5] + "')";
-			System.out.print(postsql + " " + inAddresse + " " + inEmployee);
+					+ "','" + t1[3] + "'," + "'" + t1[4] + "','" + t1[5] + "')";
+			String inEmployee = "insert into e_hotel.employe_poste values('" + t2[0] + "','" + t2[1] + "')";
+			System.out.print(postsql + " " + inEmployee);
 
 			st.execute(inEmployee);
-			st.executeUpdate(inAddresse);
 			st.executeUpdate(postsql);
 			return true;
 		} catch (SQLException e) {
@@ -97,19 +116,16 @@ public class ConnectionSQL {
 
 	}
 	
-	public boolean addNewCustomer(String[] cust) {
+	public boolean addNewCustomer(String[] client) {
 		connecter();
 
 		try {
 			st = conn.createStatement();
-			postsql = "insert into e_hotel.customer values('" + cust[0] + "','" + cust[1] + "','" + cust[2] + "','"
-					+ cust[3] + "')";
-			String inAddress = "insert into e_hotel.customer_addresses values('" + cust[4] + "','" + cust[5] + "','"
-					+ cust[6] + "','" + cust[7] + "','" + cust[8] + "')";
-			System.out.print(postsql + " " + inAddress);
+			postsql = "insert into e_hotel.client values('" + client[0] + "','" + client[1] + "','" + client[2] + "','"
+					+ client[3] + "','" + client[4] + "')";
+			System.out.print(postsql);
 
 			st.executeUpdate(postsql);
-			st.executeUpdate(inAddress);
 			return true;
 
 		} catch (SQLException e) {
@@ -127,13 +143,16 @@ public class ConnectionSQL {
 		ArrayList<Chambre> chambres = new ArrayList<Chambre>();
 
 		try {
-			ps = conn.prepareStatement("select * from e_hotel.room where room_status='available'");
+			ps = conn.prepareStatement("select * from e_hotel.chambre where status_chambre='Available'");
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				int id_chambre = rs.getInt("id_chambre");
 				String status_chambre = rs.getString("status_chambre");
-				
+				Chambre chambre = new Chambre(id_chambre, status_chambre);
+				chambres.add(chambre);
 			}
+			
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -166,6 +185,113 @@ public class ConnectionSQL {
 		}
 
 		return chambres;
+	}
+	
+	public ArrayList<Chambre> getBookedRooms(String client_ssn) {
+
+		connecter();
+
+		ArrayList<Chambre> chambres = new ArrayList<Chambre>();
+
+		try {
+			st = conn.createStatement();
+			st.execute(
+					"create view e_hotel.client_chambre as select location.client_ssn, location.id_location, location.checking_date, location.checkout_date, hotel.id_hot, chambre.id_chambre, chambre.prix from e_hotel.location, e_hotel.hotel, e_hotel.chambre where location.id_chambre = chambre.id_chambre and chambre.hotel_id = hotel.id_hot and client_ssn='"
+							+ client_ssn + "'");
+			ps = conn.prepareStatement("select * from e_hotel.client_chambre");
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				int id_location = rs.getInt("id_location");
+				String debut_date = rs.getString("debut_date");
+				String fin_date = rs.getString("fin_date");
+				int id_hot = rs.getInt("id_hot");
+				int id_chambre = rs.getInt("id_chambre");
+				float prix = rs.getFloat("prix");
+
+				System.out.println(id_hot + id_chambre);
+
+				Chambre chambre= new Chambre(id_location, debut_date, fin_date, id_hot, id_chambre, prix);
+				chambres.add(chambre);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				st = conn.createStatement();
+				st.execute("drop view e_hotel.client_chambre");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			disconnecter();
+		}
+		return chambres;
+	}
+	
+	public ArrayList<Chambre> getAllAvailableRooms() {
+
+		connecter();
+
+		ArrayList<Chambre> chambres = new ArrayList<Chambre>();
+
+		try {
+			ps = conn.prepareStatement(
+					"select * chaine_hoteliere.id_chaine, hotel.id_hot, chambre.prix, hotel.classification, hotel.nb_chambres, chambre.capacite, hotel.adresse from e_hotel.chambre, e_hotel.hotel, e_hotel.chaine_hoteliere where chaine_hoteliere.id_chaine = hotel.chaine_hoteliere_id AND chambre.hotel_id = hotel.id_hot AND (NOT EXISTS (SELECT * FROM e_hotel.location WHERE location.id_chambre = chambre.id_chambre AND (location.checking_date = CURRENT_DATE OR location.checkout_date = CURRENT_DATE))) ");
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				float prix_chambre = rs.getFloat("prix_chambre");
+				int id_chaine = rs.getInt("id_chaine");
+				int id_hot = rs.getInt("id_hot");
+				int capacite = rs.getInt("capacite");
+				String adresse = rs.getString("adresse");
+
+				Chambre chambre = new Chambre();
+				chambre.setCapacite(capacite);
+				chambre.setPrix(prix_chambre);
+				chambre.setAdresse(adresse);
+				chambre.setHotelId(id_hot);
+				chambre.setHotChaineId(id_chaine);
+				
+				chambres.add(chambre);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnecter();
+		}
+
+		return chambres;
+
+	}
+	
+	public String bookChambre(String nom_client, int id_chambre) {
+		connecter();
+
+		try {
+
+			st = conn.createStatement();
+			postsql = "update e_hotel.chambre set nom_client='" + nom_client + "', status_chambre='Booked' where id_chambre='"
+					+ id_chambre + "'";
+			st.executeUpdate(postsql);
+
+			return nom_client;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return "";
+		} finally {
+			disconnecter();
+		}
+
+	}
+	
+	public static void main(String[] args) {
+		ConnectionSQL conn = new ConnectionSQL();
+		
+
 	}
 	
 }

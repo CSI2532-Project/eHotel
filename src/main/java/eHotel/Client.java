@@ -4,7 +4,7 @@ public class Client {
 	private int id_client;
 	private String nom;
 	private String address;
-	private int ssn;
+	private String ssn;
 	private String date_enregistrement;
 	
 	public Client() {
@@ -12,7 +12,7 @@ public class Client {
 	}
 	
 	public Client(int id_client, String nom, String address,
-		int ssn, String date_enregistrement) {
+		String ssn, String date_enregistrement) {
 		
 		this.id_client = id_client;
 		this.nom = nom;
@@ -45,11 +45,11 @@ public class Client {
 		return address;
 	}
 	
-	public void setClientSsn(int ssn) {
+	public void setClientSsn(String ssn) {
 		this.ssn = ssn;
 	}
 	
-	public int getClientSnn() {
+	public String getClientSnn() {
 		return ssn;
 	}
 	
