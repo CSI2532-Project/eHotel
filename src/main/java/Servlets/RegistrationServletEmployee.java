@@ -39,7 +39,7 @@ public class RegistrationServletEmployee extends HttpServlet{
 		if (emp_pwd) {			
 				System.out.println("success");
 				
-				ArrayList<Chambre> booked_rooms = conn.getBookedRooms(emp_ssn);
+				/*ArrayList<Chambre> booked_rooms = conn.getBookedRooms(emp_ssn);
 				
 				ArrayList<Chambre> available_rooms = conn.getAllAvailableRooms();
 				
@@ -47,7 +47,7 @@ public class RegistrationServletEmployee extends HttpServlet{
 				
 				req.setAttribute("emp_nom", emp_nom);
 				req.setAttribute("bookedRooms", booked_rooms);
-				req.setAttribute("allRooms", available_rooms);
+				req.setAttribute("allRooms", available_rooms);*/
 				
 				req.getRequestDispatcher("index.html").forward(req, resp);
 				return;			

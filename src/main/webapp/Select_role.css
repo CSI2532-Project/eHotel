@@ -1,0 +1,47 @@
+@charset "ISO-8859-1";
+body{
+	margin: 0;
+	padding: 0;
+	font-family: montserrat;
+	background-image: url("image/home1.jpg");
+	background-size: cover;
+	height: 100vh;
+	overflow: hidden;
+}
+.center{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	width: 400px;
+	border-radius:10px;
+}
+
+.center h1{
+	text-align: center;
+	padding:0 0 20px 0;
+	border-bottom: 1px solid silver;
+	color: white;
+}
+
+.center form{
+	padding: 0 40px;
+	box-sizing: border-box;
+}
+
+.button{
+	margin: 30px 0;
+	text-align: center;
+	font-size: 16px;
+	margin-left: 135px;
+	margin-bottom: 80px;
+	background: none;
+  	color: white;
+  	width: 150px;
+  	height: 50px;
+}
+
+.button:hover{
+	cursor: pointer;
+	background: #C1B086;
+}
